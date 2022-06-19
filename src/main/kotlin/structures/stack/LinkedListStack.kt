@@ -9,7 +9,7 @@ class LinkedListStack<T> : Stack<T> {
 
     override fun pop(): T? = stack.pop()
 
-    override fun peek(): T? = stack.nodeAt(0)?.info
+    override fun peek(): T? = stack.getAt(0)
 
     override fun isEmpty(): Boolean = stack.isEmpty()
 

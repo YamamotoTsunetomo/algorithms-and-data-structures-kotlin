@@ -10,7 +10,7 @@ class LinkedListQueue<T> : Queue<T> {
         return true
     }
 
-    override fun peek(): T? = queue.nodeAt(0)?.info
+    override fun peek(): T? = queue.getAt(0)
 
     override fun dequeue(): T? = queue.pop()
 

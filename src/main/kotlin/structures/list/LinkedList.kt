@@ -32,7 +32,9 @@ class LinkedList<T> : List<T> {
         size++
     }
 
-    override fun nodeAt(index: Int): Node<T>? {
+    override fun getAt(index: Int): T? = getNodeAt(index)?.info
+
+    private fun getNodeAt(index: Int): Node<T>? {
         var tmp = head
         var i = 0
         while (tmp != null && i < index) {
@@ -43,15 +45,15 @@ class LinkedList<T> : List<T> {
         return tmp
     }
 
-    override fun insert(info: T, afterNode: Node<T>): Node<T> {
+    override fun insert(info: T, afterNodeAt: Int) {
+        val afterNode = getNodeAt(afterNodeAt)
         if (tail == afterNode) {
             append(info)
-            return tail!!
+            return
         }
-        val newNode = Node(info, afterNode.next)
-        afterNode.next = newNode
+        val newNode = Node(info, afterNode?.next)
+        afterNode?.next = newNode
         size++
-        return newNode
     }
 
     override fun pop(): T? {
@@ -82,14 +84,21 @@ class LinkedList<T> : List<T> {
         return current.info
     }
 
-    override fun removeAfter(node: Node<T>): T? {
-        val res = node.next?.info
-        if (node.next == tail)
+    private fun removeAfter(node: Node<T>?): T? {
+        if (node == head) return pop()
+
+        if (!isEmpty()) size--
+
+        if (node?.next == tail)
             tail = node
-        if (node.next != null)
-            size--
-        node.next = node.next?.next
-        return res
+
+        node?.next = node?.next?.next
+        return node?.info
+    }
+
+    override fun removeAt(nodeAt: Int): T? {
+        if (nodeAt == 0) return pop()
+        return removeAfter(getNodeAt(nodeAt - 1))
     }
 
     override fun clear() {
@@ -104,7 +113,6 @@ class LinkedList<T> : List<T> {
         var next: Node<T>?
 
         tail = head
-        head = curr
 
         while (curr != null) {
             next = curr.next
