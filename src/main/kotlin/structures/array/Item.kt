@@ -12,4 +12,6 @@ package structures.array
  */
 data class Item<T>(
     var item: T? = null
-)
+) {
+    override fun toString(): String = item.toString()
+}
